@@ -6,6 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
     let cardBack = document.querySelector(".card-back");
     let spinButton = document.querySelector(".btn-spin");
 
+    let modeScreen = document.getElementById("modeScreen");
+    let gameScreen = document.getElementById("gameScreen");
+    let settingsScreen = document.getElementById("settingsScreen");
+    let helpScreen = document.getElementById("helpScreen");
+
     let selectedMode = null;
     let cards = {};
     let finalLocations = {};
@@ -18,10 +23,32 @@ document.addEventListener("DOMContentLoaded", function () {
             finalLocations = data.final_locations;
         });
 
+    function showModes() {
+        hideAllScreens();
+        modeScreen.classList.remove("hidden");
+    }
+
+    function openSettings() {
+        hideAllScreens();
+        settingsScreen.classList.remove("hidden");
+    }
+
+    function openHelp() {
+        hideAllScreens();
+        helpScreen.classList.remove("hidden");
+    }
+
+    function hideAllScreens() {
+        modeScreen.classList.add("hidden");
+        gameScreen.classList.add("hidden");
+        settingsScreen.classList.add("hidden");
+        helpScreen.classList.add("hidden");
+    }
+
     function selectMode(mode) {
         selectedMode = mode;
-        document.getElementById("modeScreen").classList.add("hidden");
-        document.getElementById("gameScreen").classList.remove("hidden");
+        hideAllScreens();
+        gameScreen.classList.remove("hidden");
     }
 
     function spinWheel() {
@@ -63,11 +90,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function goBack() {
-        document.getElementById("gameScreen").classList.add("hidden");
-        document.getElementById("modeScreen").classList.remove("hidden");
+        hideAllScreens();
+        modeScreen.classList.remove("hidden");
     }
 
     window.spinWheel = spinWheel;
     window.selectMode = selectMode;
     window.goBack = goBack;
+    window.showModes = showModes;
+    window.openSettings = openSettings;
+    window.openHelp = openHelp;
 });
