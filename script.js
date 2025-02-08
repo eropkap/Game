@@ -24,34 +24,24 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Ошибка загрузки JSON:", error));
 
-    function showModes() {
-        hideAllScreens();
-        modeScreen.classList.remove("hidden");
+    // Функция для показа нужного экрана
+    function showScreen(screenId) {
+        document.querySelectorAll(".screen").forEach(screen => screen.classList.add("hidden"));
+        document.getElementById(screenId).classList.remove("hidden");
     }
 
-    function openSettings() {
-        hideAllScreens();
-        settingsScreen.classList.remove("hidden");
-    }
+    function showModes() { showScreen("modeScreen"); }
+    function openSettings() { showScreen("settingsScreen"); }
+    function openHelp() { showScreen("helpScreen"); }
+    function goBack() { showScreen("mainScreen"); }
 
-    function openHelp() {
-        hideAllScreens();
-        helpScreen.classList.remove("hidden");
-    }
-
-    function hideAllScreens() {
-        modeScreen.classList.add("hidden");
-        gameScreen.classList.add("hidden");
-        settingsScreen.classList.add("hidden");
-        helpScreen.classList.add("hidden");
-    }
-
+    // Выбор режима
     function selectMode(mode) {
         selectedMode = mode;
-        hideAllScreens();
-        gameScreen.classList.remove("hidden");
+        showScreen("gameScreen");
     }
 
+    // Кручение колеса
     function spinWheel() {
         if (!selectedMode || !cards[selectedMode] || cards[selectedMode].length === 0) {
             alert("Выберите режим перед тем, как крутить колесо!");
@@ -67,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 4500);
     }
 
+    // Выпадение задания
     function revealCard() {
         let randomIndex = Math.floor(Math.random() * cards[selectedMode].length);
         let selectedCard = cards[selectedMode][randomIndex];
@@ -79,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cardContainer.classList.add("flip");
     }
 
+    // Определение места финала
     function getFinalLocation(taskText) {
         for (let key in finalLocations.mapping) {
             if (taskText.includes(key)) {
@@ -90,15 +82,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return allOptions[Math.floor(Math.random() * allOptions.length)];
     }
 
-    function goBack() {
-        hideAllScreens();
-        modeScreen.classList.remove("hidden");
-    }
+    // Привязка событий к кнопкам
+    document.getElementById("selectModeBtn").addEventListener("click", showModes);
+    document.getElementById("settingsBtn").addEventListener("click", openSettings);
+    document.getElementById("helpBtn").addEventListener("click", openHelp);
+    document.getElementById("backBtn").addEventListener("click", goBack);
+    document.getElementById("spinButton").addEventListener("click", spinWheel);
 
-    window.spinWheel = spinWheel;
     window.selectMode = selectMode;
-    window.goBack = goBack;
-    window.showModes = showModes;
-    window.openSettings = openSettings;
-    window.openHelp = openHelp;
 });
