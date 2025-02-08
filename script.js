@@ -37,12 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function goBack() { showScreen("mainScreen"); }
 
     // Привязка событий к кнопкам
-    document.getElementById("selectModeBtn").addEventListener("click", showModes);
-    document.getElementById("settingsBtn").addEventListener("click", openSettings);
-    document.getElementById("helpBtn").addEventListener("click", openHelp);
-    document.getElementById("backBtn").addEventListener("click", goBack);
-
-    // Проверяем, существуют ли кнопки перед привязкой событий (исправление проблемы с неработающими кнопками)
     function safeEventListener(id, event, func) {
         let element = document.getElementById(id);
         if (element) {
