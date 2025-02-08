@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let gameScreen = document.getElementById("gameScreen");
     let settingsScreen = document.getElementById("settingsScreen");
     let helpScreen = document.getElementById("helpScreen");
+    let mainScreen = document.getElementById("mainScreen");
 
     let selectedMode = null;
     let cards = {};
@@ -39,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function selectMode(mode) {
         selectedMode = mode;
         showScreen("gameScreen");
+        console.log("Выбран режим:", selectedMode);
     }
 
     // Кручение колеса
@@ -59,6 +61,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Выпадение задания
     function revealCard() {
+        if (!selectedMode || !cards[selectedMode]) {
+            alert("Ошибка: режим не выбран.");
+            return;
+        }
+
         let randomIndex = Math.floor(Math.random() * cards[selectedMode].length);
         let selectedCard = cards[selectedMode][randomIndex];
         let finalLocation = getFinalLocation(selectedCard.text);
@@ -88,6 +95,14 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("helpBtn").addEventListener("click", openHelp);
     document.getElementById("backBtn").addEventListener("click", goBack);
     document.getElementById("spinButton").addEventListener("click", spinWheel);
+
+    // Привязываем выбор режима к кнопкам внутри modeScreen
+    document.querySelectorAll(".mode-option").forEach(button => {
+        button.addEventListener("click", function () {
+            let mode = this.getAttribute("data-mode");
+            selectMode(mode);
+        });
+    });
 
     window.selectMode = selectMode;
 });
